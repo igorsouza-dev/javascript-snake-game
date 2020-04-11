@@ -1,0 +1,23 @@
+html, body, button, input {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body, #root {
+  height: 100vh;
+  width: 100vw;
+}
+
+#root {
+  background: #6d6d6d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#canvas {
+  background: #fff;
+  width: 50%;
+  height: 50%;
+}
