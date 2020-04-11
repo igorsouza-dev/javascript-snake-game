@@ -11,6 +11,7 @@ html, body, #root {
 
 #root {
   background: #6d6d6d;
+  flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,6 +19,13 @@ html, body, #root {
 
 #canvas {
   background: #fff;
-  width: 50%;
-  height: 50%;
+  width: 400px;
+  height: 400px;
+}
+.btn {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background: #f3f1f4;
+
 }
