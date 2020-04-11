@@ -5,6 +5,7 @@ const fruitColor = '#f40066';
 const snakeColor = '#448f00';
 
 window.onload = () => {
+  var timerId;
   var gameSpeed = 120;
   var stepValue = 1;
   var stepX = stepValue;
@@ -18,8 +19,8 @@ window.onload = () => {
   var snakeHeadPosX = 10;
   var snakeHeadPosY = 10;
 
-  var applePosX = 15;
-  var applePosY = 15;
+  var applePosX = Math.floor(Math.random() * piecesAmount);
+  var applePosY = Math.floor(Math.random() * piecesAmount);
   
   var trail = [];
   var snakeLength = 4;
@@ -57,6 +58,14 @@ window.onload = () => {
     ctx.fillStyle = fruitColor;
     ctx.fillRect(applePosX * piecesSize, applePosY * piecesSize, piecesSize, piecesSize);
   }
+  const spawnApple = () => {
+    applePosX = Math.floor(Math.random() * piecesAmount);
+    applePosY = Math.floor(Math.random() * piecesAmount);
+  }
+  const startTimer = () => {
+    if(timerId) clearInterval(timerId);
+    timerId = setInterval(gameLoop, gameSpeed);
+  }
   const gameLoop = () => {
     
     snakeHeadPosX += stepX;
@@ -78,29 +87,50 @@ window.onload = () => {
     drawFruit();
 
     ctx.fillStyle = snakeColor;
+    // draws snake
     for (let i=0; i<trail.length; i++) {
       ctx.fillRect(trail[i].x * piecesSize, trail[i].y * piecesSize, piecesSize, piecesSize);
 
+      // check for hits
       if(trail[i].x === snakeHeadPosX && trail[i].y === snakeHeadPosY && stepX > 0) {
         stepX = stepY = 0;
         alert('Game Over!');
       }
     }
+    
     trail.push({ x: snakeHeadPosX, y: snakeHeadPosY});
     while(trail.length > snakeLength) {
       trail.shift();
     }
 
+    // checks if fruit was eaten
     if(applePosX === snakeHeadPosX && applePosY === snakeHeadPosY) {
       snakeLength++;
-      applePosX = Math.floor(Math.random() * piecesAmount);
-      applePosY = Math.floor(Math.random() * piecesAmount);
+      gameSpeed = gameSpeed - 5;
+      startTimer();
+      spawnApple();
     }
   }
+  
+  const resetGame = () => {
+    gameSpeed = 120;
+    stepValue = 1;
+    stepX = stepValue;
+    stepY = 0;
+    
+    snakeHeadPosX = 10;
+    snakeHeadPosY = 10;
+    
+    trail = [];
+    snakeLength = 4;
+    spawnApple();
+  }
   startGame = () => {
-    setInterval(gameLoop, gameSpeed);
+    resetGame();
+    startTimer();
     document.addEventListener('keydown', movementListener);
   }
+  
 }
 
 
